@@ -15,7 +15,47 @@ function App() {
   const [title, setTitle] = useState('name')
   const [value, setValue] = useState('random person')
 
-  const handleValue = () => {}
+  const fetchUser = async () => {
+    try {
+      setLoading(true)
+      const res = await fetch(url)
+      const data = await res.json()
+      const {
+        name,
+        phone,
+        email,
+        dob: { age },
+        picture: { large },
+        login: { password },
+        location: { street },
+      } = data.results[0]
+      setPerson({
+        name: `${name.first} ${name.last}`,
+        phone,
+        email,
+        age,
+        image: large,
+        password,
+        address: `${street.number} ${street.name}`,
+      })
+      setLoading(false)
+      setValue(`${name.first} ${name.last}`)
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
+  const handleValue = (e) => {
+    if (e.target.classList.contains('icon')) {
+      setTitle(e.target.dataset.label)
+      setValue(person[e.target.dataset.label])
+    }
+  }
 
   return (
     <main>
@@ -27,16 +67,9 @@ function App() {
             alt="random user"
             className="user-img"
           />
-          <p className="user-title">my {title} is</p>
+          <p className="user-title">My {title} is</p>
           <p className="user-value">{value}</p>
           <div className="values-list">
-            <button
-              className="icon"
-              data-label="name"
-              onMouseOver={handleValue}
-            >
-              <FaEnvelopeOpen />
-            </button>
             <button
               className="icon"
               data-label="name"
@@ -46,33 +79,40 @@ function App() {
             </button>
             <button
               className="icon"
-              data-label="name"
+              data-label="email"
               onMouseOver={handleValue}
             >
+              <FaEnvelopeOpen />
+            </button>
+
+            <button className="icon" data-label="age" onMouseOver={handleValue}>
               <FaCalendarTimes />
             </button>
             <button
               className="icon"
-              data-label="name"
+              data-label="address"
               onMouseOver={handleValue}
             >
               <FaMap />
             </button>
             <button
               className="icon"
-              data-label="name"
+              data-label="phone"
               onMouseOver={handleValue}
             >
               <FaPhone />
             </button>
             <button
               className="icon"
-              data-label="name"
+              data-label="password"
               onMouseOver={handleValue}
             >
               <FaLock />
             </button>
           </div>
+          <button className="btn" type="button" onClick={fetchUser}>
+            {loading ? 'loading...' : 'random user'}
+          </button>
         </div>
       </div>
     </main>
