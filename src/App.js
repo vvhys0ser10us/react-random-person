@@ -39,6 +39,7 @@ function App() {
         address: `${street.number} ${street.name}`,
       })
       setLoading(false)
+      setTitle('name')
       setValue(`${name.first} ${name.last}`)
     } catch (error) {
       console.log(error)
