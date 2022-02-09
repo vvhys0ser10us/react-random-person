@@ -10,7 +10,73 @@ import {
 const url = 'https://randomuser.me/api/'
 const defaultImage = 'https://randomuser.me/api/portraits/men/75.jpg'
 function App() {
-  return <h2>random user starter</h2>
+  const [loading, setLoading] = useState(true)
+  const [person, setPerson] = useState(null)
+  const [title, setTitle] = useState('name')
+  const [value, setValue] = useState('random person')
+
+  const handleValue = () => {}
+
+  return (
+    <main>
+      <div className="block bcg-black"></div>
+      <div className="block">
+        <div className="container">
+          <img
+            src={(person && person.image) || defaultImage}
+            alt="random user"
+            className="user-img"
+          />
+          <p className="user-title">my {title} is</p>
+          <p className="user-value">{value}</p>
+          <div className="values-list">
+            <button
+              className="icon"
+              data-label="name"
+              onMouseOver={handleValue}
+            >
+              <FaEnvelopeOpen />
+            </button>
+            <button
+              className="icon"
+              data-label="name"
+              onMouseOver={handleValue}
+            >
+              <FaUser />
+            </button>
+            <button
+              className="icon"
+              data-label="name"
+              onMouseOver={handleValue}
+            >
+              <FaCalendarTimes />
+            </button>
+            <button
+              className="icon"
+              data-label="name"
+              onMouseOver={handleValue}
+            >
+              <FaMap />
+            </button>
+            <button
+              className="icon"
+              data-label="name"
+              onMouseOver={handleValue}
+            >
+              <FaPhone />
+            </button>
+            <button
+              className="icon"
+              data-label="name"
+              onMouseOver={handleValue}
+            >
+              <FaLock />
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  )
 }
 
 export default App
